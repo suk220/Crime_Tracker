@@ -1,0 +1,143 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>crime in cg</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+          body {
+            background-image: url("https://image.freepik.com/free-vector/blurred-background-with-light-colors_1034-245.jpg");
+            width: 100%;
+          height: 100px;
+          background-size: cover;
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -2;
+
+
+
+          }
+          .container {
+              font-weight:bold;
+          }
+          </style>
+  </head>
+  <body>
+
+  <div  class="container">
+    <h2  id="a1"></h2>
+
+
+    <p>select one for 1st plot:</p>
+
+    <form id="form1">
+
+    </form>
+
+    <br><br><br>
+    <p>select one for 2nd plot:</p>
+    <form id="form2" onsubmit="return false">
+
+    </form>
+  <div>
+  <!--<button id="submit" onclick="afterClicking()">SUBMIT</button>-->
+  <br><br><br>
+
+  <button id="submit">Submit</button>
+  </div>
+
+  </div>
+
+
+
+
+  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+  </body>
+  <script>
+  var queryString = decodeURIComponent(window.location.search);
+    queryString = queryString.substring(1);
+    var queries = queryString.split("&");
+
+    console.log(queries[0]);
+
+    var z = document.createElement('div');
+  z.innerHTML = `<h1>State :`+queries[0]+` </h1>`
+  var zist = document.getElementById("a1");
+  zist.appendChild(z, zist.childNodes[0]);
+
+
+
+
+  	let xhr1 = new XMLHttpRequest;
+  	xhr1.addEventListener('load',function(){
+  		//json ka data
+  		let x=JSON.parse(this.responseText);
+  		let field=x.fields;
+  		let data=x.data;
+
+  		//data cleaning
+  		let i=0,j=0;
+      let myData1 = [];
+  		while(i<data.length)
+  		{
+  			if(data[i][0] == queries[0])
+  			{
+          // console.log(queries[0]);
+  				myData1[j]= data[i][1];
+  				j++;
+  			}
+
+  			i++;
+
+  		}
+
+  		//logging data in console
+  		// console.log(myData);
+      i=0;
+      while(i<myData1.length){
+        var z = document.createElement('div');
+      z.innerHTML = `<label class="radio-inline" style="text-align: left;">
+        <input type="radio" name="optradio" value="`+myData1[i]+`">`+myData1[i]+`
+      </label>`
+      var zist = document.getElementById("form1");
+      zist.appendChild(z, zist.childNodes[i]);
+      i++;
+      }
+      i=0;
+      while(i<myData1.length){
+        var z = document.createElement('div');
+      z.innerHTML = `<label class="radio-inline" >
+        <input type="radio" name="optradio" value="`+myData1[i]+`"  >`+myData1[i]+`
+      </label>`
+      var zist = document.getElementById("form2");
+      zist.appendChild(z, zist.childNodes[i]);
+      i++;
+      }
+
+
+  	})
+
+  	xhr1.open('GET','https://data.gov.in/node/87614/datastore/export/json');
+  	xhr1.send();
+
+  </script>
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script type="text/javascript" src="j.js" ></script>
+
+
+  </html>
